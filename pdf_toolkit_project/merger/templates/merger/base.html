@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}PDF Merger{% endblock %}</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:      #f7f7f8;
+      --card:    #ffffff;
+      --border:  #e2e2e6;
+      --accent:  #2563eb;
+      --accent2: #1d4ed8;
+      --danger:  #dc2626;
+      --success: #16a34a;
+      --text:    #1a1a2e;
+      --muted:   #6b7280;
+      --radius:  10px;
+    }
+
+    body { font-family: system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+    /* Nav */
+    nav { background: var(--card); border-bottom: 1px solid var(--border); padding: 0 2rem; display: flex; align-items: center; gap: 2rem; height: 56px; }
+    nav .brand { font-weight: 700; font-size: 1.1rem; color: var(--accent); text-decoration: none; display: flex; align-items: center; gap: .4rem; }
+    nav a { color: var(--muted); text-decoration: none; font-size: .9rem; }
+    nav a:hover, nav a.active { color: var(--text); }
+
+    /* Layout */
+    main { max-width: 780px; margin: 2.5rem auto; padding: 0 1rem; }
+    h1 { font-size: 1.6rem; margin-bottom: .3rem; }
+    .subtitle { color: var(--muted); font-size: .95rem; margin-bottom: 2rem; }
+
+    /* Card */
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; margin-bottom: 1.25rem; }
+
+    /* Buttons */
+    .btn { display: inline-flex; align-items: center; gap: .4rem; padding: .55rem 1.2rem; border-radius: 7px; font-size: .9rem; font-weight: 500; cursor: pointer; border: none; transition: background .15s; }
+    .btn-primary  { background: var(--accent);  color: #fff; }
+    .btn-primary:hover  { background: var(--accent2); }
+    .btn-danger   { background: var(--danger);  color: #fff; }
+    .btn-danger:hover   { background: #b91c1c; }
+    .btn-ghost    { background: transparent; border: 1px solid var(--border); color: var(--text); }
+    .btn-ghost:hover    { background: var(--bg); }
+    .btn:disabled { opacity: .5; cursor: not-allowed; }
+
+    /* Alerts */
+    .alert { padding: .75rem 1rem; border-radius: 7px; font-size: .9rem; margin-bottom: 1rem; }
+    .alert-success { background: #f0fdf4; border: 1px solid #bbf7d0; color: var(--success); }
+    .alert-error   { background: #fef2f2; border: 1px solid #fecaca; color: var(--danger);  }
+    .alert-warn    { background: #fffbeb; border: 1px solid #fde68a; color: #92400e; }
+  </style>
+  {% block extra_head %}{% endblock %}
+</head>
+<body>
+  <nav>
+    <a class="brand" href="/">📄 PDF Merger</a>
+    <a href="/"        {% if request.path == '/' %}class="active"{% endif %}>Merge</a>
+    <a href="/history/"{% if '/history' in request.path %}class="active"{% endif %}>History</a>
+  </nav>
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>

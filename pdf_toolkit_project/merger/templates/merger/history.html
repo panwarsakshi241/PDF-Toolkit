@@ -1,0 +1,63 @@
+{% extends 'merger/base.html' %}
+{% block title %}Merge History{% endblock %}
+
+{% block extra_head %}
+<style>
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; }
+  th { text-align: left; padding: .6rem .75rem; border-bottom: 2px solid var(--border); color: var(--muted); font-weight: 600; }
+  td { padding: .65rem .75rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: var(--bg); }
+  .badge { display: inline-block; font-size: .75rem; padding: .15rem .5rem; border-radius: 99px; background: #eff6ff; color: var(--accent); border: 1px solid #bfdbfe; }
+  .files-list { color: var(--muted); font-size: .8rem; margin-top: .25rem; }
+  .empty { text-align: center; padding: 3rem; color: var(--muted); }
+  .top-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="top-row">
+  <div>
+    <h1>Merge History</h1>
+    <p class="subtitle">Last 50 merge operations.</p>
+  </div>
+  {% if jobs %}
+  <form method="post" action="{% url 'clear_history' %}" onsubmit="return confirm('Delete all history and files?')">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">🗑 Clear all</button>
+  </form>
+  {% endif %}
+</div>
+
+<div class="card" style="padding:0;overflow:hidden">
+{% if jobs %}
+<table>
+  <thead>
+    <tr>
+      <th>Output file</th>
+      <th>Pages</th>
+      <th>Size</th>
+      <th>Date</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for job in jobs %}
+    <tr>
+      <td>
+        <strong>{{ job.output_filename }}</strong>
+        <div class="files-list">{{ job.input_files }}</div>
+      </td>
+      <td><span class="badge">{{ job.total_pages }} pg</span></td>
+      <td>{{ job.file_size_kb }} KB</td>
+      <td style="white-space:nowrap;color:var(--muted)">{{ job.created_at|date:"M d, Y H:i" }}</td>
+      <td><a href="{% url 'download' job.pk %}" class="btn btn-ghost" style="padding:.35rem .8rem;font-size:.8rem">⬇ Download</a></td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% else %}
+  <div class="empty">No merges yet. <a href="/">Merge your first PDF →</a></div>
+{% endif %}
+</div>
+{% endblock %}
