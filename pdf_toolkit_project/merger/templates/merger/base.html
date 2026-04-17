@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{% block title %}PDF Merger{% endblock %}</title>
+  <title>{% block title %}PDF Toolkit{% endblock %}</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -56,7 +56,7 @@
 </head>
 <body>
   <nav>
-    <a class="brand" href="/">📄 PDF Merger</a>
+    <a class="brand" href="/">📄 PDF Toolkit </a>
     <a href="/"        {% if request.path == '/' %}class="active"{% endif %}>Merge</a>
     <a href="/history/"{% if '/history' in request.path %}class="active"{% endif %}>History</a>
   </nav>
